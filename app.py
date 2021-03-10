@@ -41,7 +41,7 @@ def get_recommendation(title,cosine_sim_mat,df,num_of_rec=10):
     result_df = df.iloc[selected_course_indices]
     result_df['similarity_score'] = selected_course_scores
     final_recommended_course = result_df[['course_title','similarity_score','url','price','num_subscribers']]
-    return final_recommended_course   
+    return final_recommended_course.head(num_of_rec)   
 
 
 #CSS style 
