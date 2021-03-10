@@ -90,6 +90,7 @@ def main():
     
     if choice == "Home":
         st.subheader("Home")
+        st.write("           This is a Course Recommendation app based on Udemy dataset. Click the arrow key in the left side to see the Recommender app and type the Course title to get the recommendations.Given down below is the sample of the dataset.")
         st.dataframe(df.head(10))
         
     elif choice == "Recommend":
@@ -101,6 +102,9 @@ def main():
                 if search_term is not None:
                         try: 
                                 results = get_recommendation(search_term,cosine_sim_mat,df,num_of_rec)
+                                with st.beta_expander("Results as JSON"):
+                                        results_json = results.to_dict('index')
+                                        st.write(results_json)
                             
                                 for row in results.iterrows():
                                         rec_title = row[1][0]
@@ -121,7 +125,10 @@ def main():
                                         rec_num_sub = row[1][5]
                                         
                                         stc.html(RESULT_TEMP1.format(rec_title,rec_url,rec_price,rec_num_sub),height=250)
-
+                                        
+        st.info("The Course title may be Case-sensitive!!") 
+         
+                                  
 
     else:
         st.subheader("About")
