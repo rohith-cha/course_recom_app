@@ -84,7 +84,7 @@ def main():
     elif choice == "Recommend":
         st.subheader("Recommend Courses")
         cosine_sim_mat = vectorize_text_to_cosine_mat(df['course_title'])
-        search_term = st.text_input("Search")
+        search_term = st.text_input("Course title")
         num_of_rec = st.sidebar.number_input("Number of Recommendations",4,30,7)
         if st.button("Recommend"):
                 if search_term is not None:
