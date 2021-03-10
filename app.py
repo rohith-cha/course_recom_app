@@ -106,10 +106,7 @@ def main():
                                 result_df = search_term_if_not_found(search_term,df)
                                 st.dataframe(result_df)
 
-                                   #st.write(results)
                
-               #How to Maximize Your Profits Options Trading
-
     else:
         st.subheader("About")
         st.text("Build with Streamlit & Pandas")
