@@ -56,11 +56,22 @@ box-shadow:0 0 15px 5px #ccc; background-color: #f0a8a8;
 <p style="color:blue;"><span style="color:black;">🧑‍🎓👨🏽‍🎓 Students:</span>{}</p>
 </div>
 """
+#CSS style 
+RESULT_TEMP1 = """
+<div style="width:90%;height:100%;margin:1px;padding:5px;position:relative;border-radius:5px;border-bottom-right-radius: 60px;
+box-shadow:0 0 15px 5px #ccc; background-color: #f0a8a8;
+  border-left: 5px solid #eef26d;">
+<h4>{}</h4>
+<p style="color:blue;"><span style="color:black;">🔗</span><a href="{}",target="_blank">Link</a></p>
+<p style="color:blue;"><span style="color:black;">💲Price:</span>{}</p>
+<p style="color:blue;"><span style="color:black;">🧑‍🎓👨🏽‍🎓 Students:</span>{}</p>
+</div>
+"""
 
 #Search for course
 @st.cache
-def search_term_if_not_found(term,df):
-    result_df = df[df['course_title'].str.contains(term)]
+def search_term_if_not_found(term,df,num_of_rec):
+    result_df = df[df['course_title'].str.contains(term)].head(num_of_rec)
     return result_df
     
 def main():
@@ -100,11 +111,15 @@ def main():
                    
                                         stc.html(RESULT_TEMP.format(rec_title,rec_score,rec_url,rec_price,rec_num_sub),height=250)
                         except:
-                                results = "Not Found"
-                                st.warning(results)
-                                st.info("Other Suggested Options include")
-                                result_df = search_term_if_not_found(search_term,df)
-                                st.dataframe(result_df)
+                                result_df = search_term_if_not_found(search_term,df,num_of_rec)
+                                
+                                for row in result_df.iterrows():
+                                        rec_title = row[1][1]
+                                        rec_url = row[1][2]
+                                        rec_price = row[1][4]
+                                        rec_num_sub = row[1][5]
+                                
+                                stc.html(RESULT_TEMP1.format(rec_title,rec_url,rec_price,rec_num_sub),height=250)
 
                
     else:
