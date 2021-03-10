@@ -25,7 +25,7 @@ def vectorize_text_to_cosine_mat(data):
  
 #Recommendation system
 @st.cache    
-def get_recommendation(title,cosine_sim_mat,df,num_of_rec=10):
+def get_recommendation(title,cosine_sim_mat,df,num_of_rec):
     #indices of the course
     course_indices = pd.Series(df.index,index=df['course_title']).drop_duplicates()
     #ID of the course
@@ -56,6 +56,7 @@ box-shadow:0 0 15px 5px #ccc; background-color: #f0a8a8;
 <p style="color:blue;"><span style="color:black;">🧑‍🎓👨🏽‍🎓 Students:</span>{}</p>
 </div>
 """
+
 #CSS style 
 RESULT_TEMP1 = """
 <div style="width:90%;height:100%;margin:1px;padding:5px;position:relative;border-radius:5px;border-bottom-right-radius: 60px;
@@ -73,7 +74,6 @@ box-shadow:0 0 15px 5px #ccc; background-color: #f0a8a8;
 def search_term_if_not_found(term,df,num_of_rec):
     result_df = df[df['course_title'].str.contains(term)].head(num_of_rec)
     return result_df
-    
 def main():
 
     html_temp = """
@@ -111,6 +111,7 @@ def main():
                    
                                         stc.html(RESULT_TEMP.format(rec_title,rec_score,rec_url,rec_price,rec_num_sub),height=250)
                         except:
+                                
                                 result_df = search_term_if_not_found(search_term,df,num_of_rec)
                                 
                                 for row in result_df.iterrows():
@@ -118,10 +119,10 @@ def main():
                                         rec_url = row[1][2]
                                         rec_price = row[1][4]
                                         rec_num_sub = row[1][5]
-                                
-                                stc.html(RESULT_TEMP1.format(rec_title,rec_url,rec_price,rec_num_sub),height=250)
+                                        
+                                        stc.html(RESULT_TEMP1.format(rec_title,rec_url,rec_price,rec_num_sub),height=250)
 
-               
+
     else:
         st.subheader("About")
         st.text("Build with Streamlit & Pandas")
